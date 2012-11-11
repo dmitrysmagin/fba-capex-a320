@@ -986,14 +986,18 @@ void affiche_ligne_options(unsigned char num, unsigned char y)
 			}
 			break;
 		case OPTION_NUM_FBA2X_FRONTEND:
-			if (options.rotate == 2) put_string( "Rotate: Vertical" , OPTIONS_START_X , y , BLANC , screen );
-			else if (options.rotate == 1) put_string( "Rotate: Horizontal" , OPTIONS_START_X , y , BLANC , screen );
-			else put_string( "Rotate: Auto" , OPTIONS_START_X , y , BLANC , screen );
+			if (options.rotate == 0xFF) put_string( "Frameskip: Auto" , OPTIONS_START_X , y , BLANC , screen );
+			else {
+				sprintf((char*)g_string, "Frameskip: %d" , options.rotate );
+				put_string( g_string , OPTIONS_START_X , y , BLANC , screen );
+			}
 			if (conf.exist){
-				put_string( abreviation_cf[2][conf.rotate] , CONF_START_X , y , VERT , screen );
+				if(conf.rotate == 0xFF) sprintf((char*)g_string, "%s" , "Auto" );
+				else sprintf((char*)g_string, "%d" , conf.rotate );
+				put_string( (char*)g_string , CONF_START_X , y , VERT , screen );
 			}else{
 				put_string( "-" , CONF_START_X , y , ROUGE , screen );
-			}			 
+			}
 			break;
 		case OPTION_NUM_FBA2X_CONFIGKEY:
 			put_string( "Configure keys" , OPTIONS_START_X , y , BLANC , screen );
@@ -1226,7 +1230,7 @@ void ss_prg_options(void)
 						case OPTION_NUM_FBA2X_FRONTEND:
 							flag_save = ROUGE;
 							++options.rotate;
-							if ( options.rotate > 2 ) options.rotate = 0;
+							if ( options.rotate > 59 ) options.rotate = 0xFF;
 							break;
 						case OPTION_NUM_FBA2X_68K:
 							flag_save = ROUGE;
@@ -1383,7 +1387,7 @@ void ss_prog_run(void)
 							strcpy(argument[ ar ],g_string);
 							++ar;
 
-							sprintf((char*)g_string, "--clock=%d" , options.cpu);
+							/*sprintf((char*)g_string, "--clock=%d" , options.cpu);
 							argument[ ar ] = (char*) calloc( strlen(g_string) + 1 , sizeof(char));
 							strcpy(argument[ ar ],g_string);
 							++ar;
@@ -1391,7 +1395,7 @@ void ss_prog_run(void)
 							sprintf((char*)g_string, "--sense=%d" , options.sense);
 							argument[ ar ] = (char*) calloc( strlen(g_string) + 1 , sizeof(char));
 							strcpy(argument[ ar ],g_string);
-							++ar;
+							++ar;*/
 
 							if (options.sound){
 								argument[ ar ] = "--sound-sdl";
@@ -1406,7 +1410,7 @@ void ss_prog_run(void)
 								++ar;
 							}
 
-                            if (options.rescale == 3){
+                           /* if (options.rescale == 3){
 								//argument[ ar ] = "--hwho-rescale";
 								argument[ ar ] = "--scaling=3";
 								++ar;
@@ -1419,16 +1423,15 @@ void ss_prog_run(void)
 							}else{
 								argument[ ar ] = "--scaling=0";
 								++ar;
-							}
+							}*/
 
-							if (options.rotate == 2){
-								argument[ ar ] = "--rotate=2";
-								++ar;
-							}else if (options.rotate == 1){
-								argument[ ar ] = "--rotate=1";
+							if (options.rotate == 0xff){
+								argument[ ar ] = "--frameskip=auto";
 								++ar;
 							}else{
-								argument[ ar ] = "--rotate=0";
+								sprintf((char*)g_string, "--frameskip=%d" , options.rotate);
+								argument[ ar ] = (char*) calloc( strlen(g_string) + 1 , sizeof(char));
+								strcpy(argument[ ar ], g_string);
 								++ar;
 							}
 
@@ -1448,13 +1451,13 @@ void ss_prog_run(void)
 								++ar;
 							}
 
-							if (options.filter == 1){
+							/*if (options.filter == 1){
 								argument[ ar ] = "--filter=1";
 								++ar;
 							}else if (options.filter == 0){
 								argument[ ar ] = "--filter=0";
 								++ar;
-							}
+							}*/
 
 							if (options.showfps){
 								argument[ ar ] = "--showfps";
@@ -1500,7 +1503,7 @@ void ss_prog_run(void)
 								strcpy(argument[ ar ],g_string);
 								++ar;
 
-								sprintf((char*)g_string, "--clock=%d" , conf.cpu);
+								/*sprintf((char*)g_string, "--clock=%d" , conf.cpu);
 								argument[ ar ] = (char*) calloc( strlen(g_string) + 1 , sizeof(char));
 								strcpy(argument[ ar ],g_string);
 								++ar;
@@ -1508,7 +1511,7 @@ void ss_prog_run(void)
 								sprintf((char*)g_string, "--sense=%d" , conf.sense);
 								argument[ ar ] = (char*) calloc( strlen(g_string) + 1 , sizeof(char));
 								strcpy(argument[ ar ],g_string);
-								++ar;
+								++ar;*/
 
 								if (conf.sound){
 									argument[ ar ] = "--sound-sdl";
@@ -1523,7 +1526,7 @@ void ss_prog_run(void)
 									++ar;
 								}
 
-								if (conf.rescale == 3){
+								/*if (conf.rescale == 3){
 									//argument[ ar ] = "--hwho-rescale";
 									argument[ ar ] = "--scaling=3";
 									++ar;
@@ -1536,16 +1539,15 @@ void ss_prog_run(void)
 								}else{
 									argument[ ar ] = "--scaling=0";
 									++ar;
-								}
+								}*/
 
-								if (conf.rotate == 2){
-									argument[ ar ] = "--rotate=2";
-									++ar;
-								}else if (conf.rotate == 1){
-									argument[ ar ] = "--rotate=1";
+								if (conf.rotate == 0xff){
+									argument[ ar ] = "--frameskip=auto";
 									++ar;
 								}else{
-									argument[ ar ] = "--rotate=0";
+									sprintf((char*)g_string, "--frameskip=%d" , conf.rotate);
+									argument[ ar ] = (char*) calloc( strlen(g_string) + 1 , sizeof(char));
+									strcpy(argument[ ar ], g_string);
 									++ar;
 								}
 

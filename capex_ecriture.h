@@ -35,6 +35,8 @@ void write_cfg()
 	fputs(g_string,fp);
 	sprintf((char*)g_string, "fba_rescale %d\n",options.rescale);
 	fputs(g_string,fp);
+	sprintf((char*)g_string, "fba_frameskip %d\n",options.rotate);
+	fputs(g_string,fp);
 	sprintf((char*)g_string, "fba_showfps %d\n",options.showfps);
 	fputs(g_string,fp);
 	sprintf((char*)g_string, "fba_frontend %d\n",options.frontend);
@@ -43,14 +45,14 @@ void write_cfg()
 	fputs(g_string,fp);
 	sprintf((char*)g_string, "z80_core %d\n",options.z80core);
 	fputs(g_string,fp);
-	sprintf((char*)g_string, "rotate %d\n",options.rotate);
-	fputs(g_string,fp);
+	//sprintf((char*)g_string, "rotate %d\n",options.rotate);
+	//fputs(g_string,fp);
 
 	sprintf((char*)g_string, "filter %d\n",options.filter);
 	fputs(g_string,fp);
 
-	sprintf((char*)g_string, "rotate %d\n",options.rotate);
-	fputs(g_string,fp);
+	//sprintf((char*)g_string, "rotate %d\n",options.rotate);
+	//fputs(g_string,fp);
 
 	sprintf((char*)g_string, "rescale %d\n",options.rescale);
 	fputs(g_string,fp);
@@ -152,7 +154,7 @@ void write_cf()
 	fputs(g_string,fp);
 	sprintf((char*)g_string, "fba_rescale %d\n",options.rescale);
 	fputs(g_string,fp);
-	sprintf((char*)g_string, "fba_rotate %d\n",options.rotate);
+	sprintf((char*)g_string, "fba_frameskip %d\n",options.rotate);
 	fputs(g_string,fp);
 	sprintf((char*)g_string, "fba_sensitivity %d\n",options.sense);
 	fputs(g_string,fp);
@@ -163,8 +165,8 @@ void write_cf()
 	sprintf((char*)g_string, "z80_core %d\n",options.z80core);
 	fputs(g_string,fp);
 
-    sprintf((char*)g_string, "rotate %d\n",options.rotate);
-	fputs(g_string,fp);
+    //sprintf((char*)g_string, "rotate %d\n",options.rotate);
+	//fputs(g_string,fp);
 
 	sprintf((char*)g_string, "filter %d\n",options.filter);
 	fputs(g_string,fp);

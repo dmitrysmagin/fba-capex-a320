@@ -30,7 +30,7 @@ void load_cfg()
 	options.sound = 1;
 	options.samplerate = 11025;
 	options.rescale = 3;
-	options.rotate = 0;
+	options.rotate = 0xFF; // auto frameskip by default
 	options.sense = 100;
 	options.showfps = 0;
 	options.frontend = 1;
@@ -63,7 +63,7 @@ void load_cfg()
 				else if (strcmp(arg1,"capex_clock")==0) capex.clock = argd;
 				else if (strcmp(arg1,"capex_tweak")==0) capex.tweak = argd;
 				else if (strcmp(arg1,"z80_core")==0) options.z80core = argd;
-				else if (strcmp(arg1,"rotate")==0) options.rotate = argd;
+				//else if (strcmp(arg1,"rotate")==0) options.rotate = argd;
 				else if (strcmp(arg1,"filter")==0) options.filter = argd;
 				else if (strcmp(arg1,"sensitivity")==0) options.sense = argd;
 				else if (strcmp(arg1,"capex_delay_speed")==0) capex.delayspeed = argd;
@@ -126,7 +126,7 @@ void load_cf(void)
 				else if (strcmp(arg1,"fba_sound")==0) conf.sound = argd;
 				else if (strcmp(arg1,"fba_samplerate")==0) conf.samplerate = argd;
 				else if (strcmp(arg1,"fba_rescale")==0) conf.rescale = argd;
-				else if (strcmp(arg1,"fba_rescale")==0) conf.rotate = argd;
+				else if (strcmp(arg1,"fba_frameskip")==0) conf.rotate = argd;
 				else if (strcmp(arg1,"fba_sensitivity")==0) conf.sense = argd;
 				else if (strcmp(arg1,"fba_showfps")==0) conf.showfps = argd;
 				else if (strcmp(arg1,"fba_tweak")==0) conf.m68kcore = argd;

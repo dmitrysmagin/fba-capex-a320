@@ -132,7 +132,7 @@ unsigned char joy_speed[4]={0,1,3,7};
 static char *abreviation_cf[6][7]={
 	{"Disable","Enable","","","","",""},
 	{"None","2x","Best","Full","","",""},
-	{"Auto","Frc Hrz","Frc Vrt","","","",""},
+	{"Off","Auto","Manual","","","",""},
 	{"C68k","M68k","","","","",""},
 	{"CZ80","MAME Z80","","","","",""},
 	{"Default","None","","","","",""}
