@@ -1034,8 +1034,8 @@ void affiche_ligne_options(unsigned char num, unsigned char y)
 			}
 			break;
 		case OPTION_NUM_CAPEX_TWEAK:
-			if (options.filter == 1) put_string( "Filter: None" , OPTIONS_START_X , y , BLANC , screen );
-			else put_string( "Filter: Default" , OPTIONS_START_X , y , BLANC , screen );
+			if (options.filter == 1) put_string( "Use memory swap to file: On" , OPTIONS_START_X , y , BLANC , screen );
+			else put_string( "Use memory swap to file: Off" , OPTIONS_START_X , y , BLANC , screen );
 			if (conf.exist){
 				put_string( abreviation_cf[5][conf.filter] , CONF_START_X , y , VERT , screen );
 			}else{
@@ -1451,13 +1451,10 @@ void ss_prog_run(void)
 								++ar;
 							}
 
-							/*if (options.filter == 1){
-								argument[ ar ] = "--filter=1";
+							if (options.filter == 1){
+								argument[ ar ] = "--use-swap";
 								++ar;
-							}else if (options.filter == 0){
-								argument[ ar ] = "--filter=0";
-								++ar;
-							}*/
+							}
 
 							if (options.showfps){
 								argument[ ar ] = "--showfps";
@@ -1568,10 +1565,7 @@ void ss_prog_run(void)
 								}
 
 								if (conf.filter == 1){
-									argument[ ar ] = "--filter=1";
-									++ar;
-								}else if (conf.filter == 0){
-									argument[ ar ] = "--filter=0";
+									argument[ ar ] = "--use-swap";
 									++ar;
 								}
 

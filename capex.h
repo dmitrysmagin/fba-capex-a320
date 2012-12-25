@@ -135,7 +135,7 @@ static char *abreviation_cf[6][7]={
 	{"Off","Auto","Manual","","","",""},
 	{"C68k","M68k","","","","",""},
 	{"CZ80","MAME Z80","","","","",""},
-	{"Default","None","","","","",""}
+	{"Off","On","","","","",""}
 };
 
 void ligneH(SDL_Surface* screenSurface, int x, int y, int w, Uint32 coul)
