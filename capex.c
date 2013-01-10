@@ -1007,7 +1007,6 @@ void affiche_ligne_options(unsigned char num, unsigned char y)
 			if (options.m68kcore == 0) put_string( "68K Emu Core: C68k" , OPTIONS_START_X , y , BLANC , screen );
 			else
 			if (options.m68kcore == 1) put_string( "68K Emu Core: M68K" , OPTIONS_START_X , y , BLANC , screen );
-			//else put_string( "68K Emu Core: Auto" , OPTIONS_START_X , y , BLANC , screen );
 			if (conf.exist){
 				put_string( abreviation_cf[3][conf.m68kcore] , CONF_START_X , y , VERT , screen );
 			}else{
@@ -1436,10 +1435,13 @@ void ss_prog_run(void)
 							}
 
 							if (options.m68kcore == 2){
-								argument[ ar ] = "--force-c68k";
+								argument[ ar ] = "--68kcore=2";
 								++ar;
-							}else if (options.m68kcore == 1){
-								argument[ ar ] = "--force-m68k";
+							} else if (options.m68kcore == 1){
+								argument[ ar ] = "--68kcore=1";
+								++ar;
+							} else if (options.m68kcore == 0){
+								argument[ ar ] = "--68kcore=0";
 								++ar;
 							}
 
@@ -1549,10 +1551,13 @@ void ss_prog_run(void)
 								}
 
 								if (conf.m68kcore == 2){
-									argument[ ar ] = "--force-c68k";
+									argument[ ar ] = "--68kcore=2";
 									++ar;
-								}else if (conf.m68kcore == 1){
-									argument[ ar ] = "--force-m68k";
+								} else if (conf.m68kcore == 1){
+									argument[ ar ] = "--68kcore=1";
+									++ar;
+								} else if (conf.m68kcore == 0){
+									argument[ ar ] = "--68kcore=0";
 									++ar;
 								}
 

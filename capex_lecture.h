@@ -129,7 +129,7 @@ void load_cf(void)
 				else if (strcmp(arg1,"fba_frameskip")==0) conf.rotate = argd;
 				else if (strcmp(arg1,"fba_sensitivity")==0) conf.sense = argd;
 				else if (strcmp(arg1,"fba_showfps")==0) conf.showfps = argd;
-				else if (strcmp(arg1,"fba_tweak")==0) conf.m68kcore = argd;
+				else if (strcmp(arg1,"m68k_core")==0) conf.m68kcore = argd;
 				else if (strcmp(arg1,"z80_core")==0) conf.z80core = argd;
 				else if (strcmp(arg1,"filter")==0) conf.filter = argd;
 			}
