@@ -94,36 +94,25 @@
 #define VERT	36
 #define BLEU	45
 
-#define OPTION_NUM_FBA2X_CPU			100
-#define OPTION_NUM_FBA2X_SOUND			0
-#define OPTION_NUM_FBA2X_SAMPLERATE		1
-#define OPTION_NUM_FBA2X_RESCALE		2
-#define OPTION_NUM_FBA2X_SHOWFPS		3
-#define OPTION_NUM_FBA2X_FRONTEND		4
-#define OPTION_NUM_FBA2X_68K			5
-#define OPTION_NUM_FBA2X_Z80			6
-#define OPTION_NUM_FBA2X_CONFIGKEY		14
+#define OPTION_FBA_RUN					0
+#define OPTION_FBA_SOUND				1
+#define OPTION_FBA_SAMPLERATE			2
+#define OPTION_FBA_RESCALE				3
+#define OPTION_FBA_SHOWFPS				4
+#define OPTION_FBA_68K					5
+#define OPTION_FBA_Z80					6
+#define OPTION_FBA_ANALOG				7
+#define OPTION_FBA_SWAP					8
+#define OPTION_FBA_FIRST				OPTION_FBA_RUN
+#define OPTION_FBA_LAST					OPTION_FBA_SWAP
 
-#define OPTION_NUM_CAPEX_TWEAK			7
-#define OPTION_NUM_CAPEX_DELAYSPEED		8
-#define OPTION_NUM_CAPEX_REPEATSPEED	9
-#define OPTION_NUM_CAPEX_LIST			10
-#define OPTION_NUM_CAPEX_SHADOW			11
-#define OPTION_NUM_CAPEX_SKIN			12
-#define OPTION_NUM_CAPEX_DEADZONE		13
-
-#define OPTION_NUM_SAVE				15
-#define OPTION_NUM_SAVE_CF			16
-#define OPTION_NUM_RETURN			17
-
-#define OPTION_NUM_FBA2X_LINESCROLL	97
-#define OPTION_NUM_FBA2X_SHOWTITLE	99
-#define OPTION_NUM_FBA2X_SCREENPOSITION	910
-#define OPTION_NUM_FBA2X_FULLCACHE	911
-#define OPTION_NUM_FBA2X_EXTINPUT	 912
-#define OPTION_NUM_FBA2X_XORROM		913
-#define OPTION_NUM_FBA2X_HISCORE	915
-
+#define OPTION_NUM_CAPEX_DELAYSPEED		0
+#define OPTION_NUM_CAPEX_REPEATSPEED	1
+#define OPTION_NUM_CAPEX_LIST			2
+#define OPTION_NUM_CAPEX_SHADOW			3
+#define OPTION_NUM_CAPEX_SKIN			4
+#define OPTION_NUM_CAPEX_DEADZONE		108
+#define OPTION_NUM_RETURN				5
 
 #define NOMBRE_OPTIONS				OPTION_NUM_RETURN
 
@@ -131,7 +120,7 @@ unsigned char joy_speed[4]={0,1,3,7};
 
 static char *abreviation_cf[6][7]={
 	{"Disable","Enable","","","","",""},
-	{"None","2x","Best","Full","","",""},
+	{"Original","Fullscreen","","","","",""},
 	{"Off","Auto","Manual","","","",""},
 	{"C68k","M68k","","","","",""},
 	{"CZ80","MAME Z80","","","","",""},

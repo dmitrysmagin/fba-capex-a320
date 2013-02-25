@@ -25,16 +25,17 @@ void load_cfg()
 	signed long argd;
 	char ligne[256];
 
-	// force les settings si un parametre est absent
-	options.cpu = 366;
+	// force default settings
+	//options.cpu = 366;
 	options.sound = 1;
-	options.samplerate = 11025;
-	options.rescale = 3;
+	options.samplerate = 22050;
+	options.rescale = 0;
 	options.rotate = 0xFF; // auto frameskip by default
 	options.sense = 100;
 	options.showfps = 0;
 	options.frontend = 1;
 	options.m68kcore = 0;
+	options.z80core = 0;
 
 	capex.clock = 66;
 	capex.tweak = 0;
@@ -45,43 +46,28 @@ void load_cfg()
 	capex.skin = 1;
         sprintf((char*)capex.rompath, "%s", "./roms/");
 
-	//lire le fichier de configuration
+	// read config file
 	if ((fp = fopen("./capex.cfg", "r")) != NULL){
 		while(fgets(ligne,sizeof(ligne),fp) != NULL){
 
 			sscanf(ligne, "%s %d", &arg1,&argd);
-                        sscanf(ligne, "%s %s", &arg1,&arg2);
-			if (strcmp(arg1,"#")!=0){
-
-				if (strcmp(arg1,"fba_clock")==0) options.cpu = argd;
-				else if (strcmp(arg1,"fba_sound")==0) options.sound = argd;
-				else if (strcmp(arg1,"fba_samplerate")==0) options.samplerate = argd;
-				else if (strcmp(arg1,"fba_rescale")==0) options.rescale = argd;
-				else if (strcmp(arg1,"fba_showfps")==0) options.showfps = argd;
-				else if (strcmp(arg1,"m68k_core")==0) options.m68kcore = argd;
-				else if (strcmp(arg1,"capex_deadzone")==0) capex.deadzone = argd;
+			sscanf(ligne, "%s %s", &arg1,&arg2);
+			if (strcmp(arg1, "#") != 0) {
+				if (strcmp(arg1,"capex_deadzone")==0) capex.deadzone = argd;
 				else if (strcmp(arg1,"capex_clock")==0) capex.clock = argd;
 				else if (strcmp(arg1,"capex_tweak")==0) capex.tweak = argd;
-				else if (strcmp(arg1,"z80_core")==0) options.z80core = argd;
-				//else if (strcmp(arg1,"rotate")==0) options.rotate = argd;
-				else if (strcmp(arg1,"filter")==0) options.filter = argd;
-				else if (strcmp(arg1,"sensitivity")==0) options.sense = argd;
 				else if (strcmp(arg1,"capex_delay_speed")==0) capex.delayspeed = argd;
 				else if (strcmp(arg1,"capex_repeat_speed")==0) capex.repeatspeed = argd;
 				else if (strcmp(arg1,"capex_list")==0) capex.list = argd;
 				else if (strcmp(arg1,"capex_shadow")==0) capex.FXshadow = argd;
 				else if (strcmp(arg1,"capex_skin")==0) capex.skin = argd;
 				else if (strcmp(arg1,"rom_path")==0) sprintf((char*)capex.rompath, "%s", arg2);
-
 			}
 		}
 		fclose(fp);
-	}else{
+	} else {
 		write_cfg();
 	}
-
-	//check tous les settings et corrige si besoin
-	//a faire
 }
 
 void load_cf(void)
@@ -100,30 +86,30 @@ void load_cf(void)
 	}
 
 
-	//lire le fichier de configuration d�di�
+	// read the specific config file
 	sprintf((char*)g_string, "./config/%s.cf", conf.cf);
 
-	if ((fp = fopen( g_string , "r")) != NULL){
+	if ((fp = fopen( g_string , "r")) != NULL) {
 
-		//fichier cf present
+		// mark file as present
 		conf.exist = 1;
 
-		// force les settings si un parametre est absent
-		conf.cpu = options.cpu;
-		conf.sound = options.sound;
-		conf.samplerate = options.samplerate;
-		conf.rescale = options.rescale;
-		conf.showfps = options.showfps;
-		conf.m68kcore = options.m68kcore;
+		// force default settings
+		conf.sound = 1;
+		conf.samplerate = 22050;
+		conf.rescale = 0;
+		conf.showfps = 0;
+		conf.m68kcore = 0;
+		conf.z80core = 0;
+		conf.sense = 100;
+		conf.filter = 0;
 
 		while(fgets(ligne,sizeof(ligne),fp) != NULL){
 
 			sscanf(ligne, "%s %d", &arg1,&argd);
 
-			if (strcmp(arg1,"#")!=0){
-
-				if (strcmp(arg1,"fba_clock")==0) conf.cpu = argd;
-				else if (strcmp(arg1,"fba_sound")==0) conf.sound = argd;
+			if (strcmp(arg1,"#") != 0) {
+				if (strcmp(arg1,"fba_sound")==0) conf.sound = argd;
 				else if (strcmp(arg1,"fba_samplerate")==0) conf.samplerate = argd;
 				else if (strcmp(arg1,"fba_rescale")==0) conf.rescale = argd;
 				else if (strcmp(arg1,"fba_frameskip")==0) conf.rotate = argd;
@@ -131,13 +117,23 @@ void load_cf(void)
 				else if (strcmp(arg1,"fba_showfps")==0) conf.showfps = argd;
 				else if (strcmp(arg1,"m68k_core")==0) conf.m68kcore = argd;
 				else if (strcmp(arg1,"z80_core")==0) conf.z80core = argd;
-				else if (strcmp(arg1,"filter")==0) conf.filter = argd;
+				else if (strcmp(arg1,"swap")==0) conf.filter = argd;
 			}
 		}
 		fclose(fp);
-	}else{
-		//initialisation fichier cf absent
+	} else {
+		// mark file as absent
 		conf.exist = 0;
+
+		// force default settings
+		conf.sound = 1;
+		conf.samplerate = 22050;
+		conf.rescale = 0;
+		conf.showfps = 0;
+		conf.m68kcore = 0;
+		conf.z80core = 0;
+		conf.sense = 100;
+		conf.filter = 0;
 	}
 }
 

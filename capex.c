@@ -103,54 +103,40 @@ unsigned int listing_tri[NB_FILTRE][NB_MAX_GAMES];
 
 struct options
 {
-	unsigned char y;
-	unsigned char num;
-	unsigned int offset_num;
+	int y;
+	int num;
+	int offset_num;
 
-	unsigned int cpu;
-	unsigned char sound;
-	unsigned int samplerate;
-	unsigned char rescale;
-	unsigned char rotate;
-	unsigned char showfps;
-	unsigned char frontend;
-	unsigned char m68kcore;
+	int cpu;
+	int sound;
+	int samplerate;
+	int rescale;
+	int rotate;
+	int showfps;
+	int m68kcore;
+	int z80core;
+	int filter;
+	int sense;
 
-	unsigned char nb;
-	unsigned char listing;
-	unsigned char z80core;
-	unsigned char filter;
-	unsigned char spare1;
-	unsigned char spare2;
-	unsigned char spare3;
-	unsigned char spare4;
-	unsigned char spare5;
-	unsigned int sense;
-
-
+	int nb;
+	int listing;
+	int frontend;
 } options;
 
 struct conf
 {
-	unsigned char exist;
+	int exist;
 	char *cf;
-	unsigned int cpu;
-	unsigned char sound;
-	unsigned int samplerate;
-	unsigned char rescale;
-	unsigned char rotate;
-	unsigned char showfps;
-	unsigned char m68kcore;
-	unsigned char z80core;
-	unsigned char filter;
-	unsigned char spare1;
-	unsigned char spare2;
-	unsigned char spare3;
-	unsigned char spare4;
-	unsigned char spare5;
-	unsigned int sense;
-
-}conf;
+	int sound;
+	int samplerate;
+	int rescale;
+	int rotate;
+	int showfps;
+	int m68kcore;
+	int z80core;
+	int sense;
+	int filter;
+} conf;
 
 struct capex
 {
@@ -176,9 +162,10 @@ struct selector
 
 struct run
 {
-	unsigned char y;
-	signed char num;
-}run;
+	int y;
+	int num;
+	int offset_num;
+} run;
 
 #include "capex_ecriture.h"
 #include "capex_lecture.h"
@@ -331,324 +318,6 @@ void show_screen(char * text)
 
 	put_string( "Set Keys" , 142 , CREDIT_Y+8 , BLANC , credit );
 	put_string( text , CREDIT_X+8 , CREDIT_Y+24 , BLEU , credit );
-}
-
-char set_keys()
-{
-	int not_pressed =1;
-	unsigned int compteur = 1;
-
-
-	show_screen("Press key for Up");
-
-	while(not_pressed)
-	{
-		drawSprite( credit , screen , 0 , 0 , 0 , 0 , 320 , 240 );
-		redraw_screen();
-
-		SDL_PollEvent(&event);
-		if (event.type==SDL_KEYDOWN){
-			if (compteur==0 || (compteur>capex.delayspeed && ((compteur&joy_speed[capex.repeatspeed])==0))){
-			  KEYUP = event.key.keysym.sym; 
-			  not_pressed =0;
-                          			
-			}
-			++compteur;
-		}else if (event.type==SDL_KEYUP){
-			compteur=0;// reinitialisation joystick
-		}
-	}
-	not_pressed =1;
-	show_screen("Press key for Down");
-	while(not_pressed)
-	{
-
-		drawSprite( credit , screen , 0 , 0 , 0 , 0 , 320 , 240 );
-		redraw_screen();
-
-		SDL_PollEvent(&event);
-		if (event.type==SDL_KEYDOWN){
-			if (compteur==0 || (compteur>capex.delayspeed && ((compteur&joy_speed[capex.repeatspeed])==0))){
-			  KEYDOWN = event.key.keysym.sym; 
-			  not_pressed =0;
-			}
-			++compteur;
-		}else if (event.type==SDL_KEYUP){
-			compteur=0;// reinitialisation joystick
-		}
-	}
-	not_pressed =1;
-	show_screen("Press key for Left");
-	while(not_pressed)
-	{
-
-		drawSprite( credit , screen , 0 , 0 , 0 , 0 , 320 , 240 );
-		redraw_screen();
-
-		SDL_PollEvent(&event);
-		if (event.type==SDL_KEYDOWN){
-			if (compteur==0 || (compteur>capex.delayspeed && ((compteur&joy_speed[capex.repeatspeed])==0))){
-			  KEYLEFT = event.key.keysym.sym; 
-			  not_pressed =0;
-			}
-			++compteur;
-		}else if (event.type==SDL_KEYUP){
-			compteur=0;// reinitialisation joystick
-		}
-	}
-	not_pressed =1;
-	show_screen("Press key for Right");
-	while(not_pressed)
-	{
-
-		drawSprite( credit , screen , 0 , 0 , 0 , 0 , 320 , 240 );
-		redraw_screen();
-
-		SDL_PollEvent(&event);
-		if (event.type==SDL_KEYDOWN){
-			if (compteur==0 || (compteur>capex.delayspeed && ((compteur&joy_speed[capex.repeatspeed])==0))){
-			  KEYRIGHT = event.key.keysym.sym; 
-			  not_pressed =0;
-			}
-			++compteur;
-		}else if (event.type==SDL_KEYUP){
-			compteur=0;// reinitialisation joystick
-		}
-	}
-	not_pressed =1;
-	show_screen("Press key for Fire 1");
-	while(not_pressed)
-	{
-
-		drawSprite( credit , screen , 0 , 0 , 0 , 0 , 320 , 240 );
-		redraw_screen();
-
-		SDL_PollEvent(&event);
-		if (event.type==SDL_KEYDOWN){
-			if (compteur==0 || (compteur>capex.delayspeed && ((compteur&joy_speed[capex.repeatspeed])==0))){
-			  KEYA = event.key.keysym.sym; 
-			  not_pressed =0;
-			}
-			++compteur;
-		}else if (event.type==SDL_KEYUP){
-			compteur=0;// reinitialisation joystick
-		}
-	}
-	not_pressed =1;
-	show_screen("Press key for Fire 2");
-	while(not_pressed)
-	{
-
-		drawSprite( credit , screen , 0 , 0 , 0 , 0 , 320 , 240 );
-		redraw_screen();
-
-		SDL_PollEvent(&event);
-		if (event.type==SDL_KEYDOWN){
-			if (compteur==0 || (compteur>capex.delayspeed && ((compteur&joy_speed[capex.repeatspeed])==0))){
-			  KEYB = event.key.keysym.sym; 
-			  not_pressed =0;
-			}
-			++compteur;
-		}else if (event.type==SDL_KEYUP){
-			compteur=0;// reinitialisation joystick
-		}
-	}
-	not_pressed =1;
-	show_screen("Press key for Fire 3");
-	while(not_pressed)
-	{
-
-		drawSprite( credit , screen , 0 , 0 , 0 , 0 , 320 , 240 );
-		redraw_screen();
-
-		SDL_PollEvent(&event);
-		if (event.type==SDL_KEYDOWN){
-			if (compteur==0 || (compteur>capex.delayspeed && ((compteur&joy_speed[capex.repeatspeed])==0))){
-			  KEYX = event.key.keysym.sym; 
-			  not_pressed =0;
-			}
-			++compteur;
-		}else if (event.type==SDL_KEYUP){
-			compteur=0;// reinitialisation joystick
-		}
-	}
-	not_pressed =1;
-	show_screen("Press key for Fire 4");
-	while(not_pressed)
-	{
-
-		drawSprite( credit , screen , 0 , 0 , 0 , 0 , 320 , 240 );
-		redraw_screen();
-
-		SDL_PollEvent(&event);
-		if (event.type==SDL_KEYDOWN){
-			if (compteur==0 || (compteur>capex.delayspeed && ((compteur&joy_speed[capex.repeatspeed])==0))){
-			  KEYY = event.key.keysym.sym; 
-			  not_pressed =0;
-			}
-			++compteur;
-		}else if (event.type==SDL_KEYUP){
-			compteur=0;// reinitialisation joystick
-		}
-	}
-	not_pressed =1;
-	show_screen("Press key for Fire 5");
-	while(not_pressed)
-	{
-
-		drawSprite( credit , screen , 0 , 0 , 0 , 0 , 320 , 240 );
-		redraw_screen();
-
-		SDL_PollEvent(&event);
-		if (event.type==SDL_KEYDOWN){
-			if (compteur==0 || (compteur>capex.delayspeed && ((compteur&joy_speed[capex.repeatspeed])==0))){
-			  KEYLS = event.key.keysym.sym; 
-			  not_pressed =0;
-			}
-			++compteur;
-		}else if (event.type==SDL_KEYUP){
-			compteur=0;// reinitialisation joystick
-		}
-	}
-	not_pressed =1;
-	show_screen("Press key for Fire 6");
-	while(not_pressed)
-	{
-
-		drawSprite( credit , screen , 0 , 0 , 0 , 0 , 320 , 240 );
-		redraw_screen();
-
-		SDL_PollEvent(&event);
-		if (event.type==SDL_KEYDOWN){
-			if (compteur==0 || (compteur>capex.delayspeed && ((compteur&joy_speed[capex.repeatspeed])==0))){
-			  KEYRS = event.key.keysym.sym; 
-			  not_pressed =0;
-			}
-			++compteur;
-		}else if (event.type==SDL_KEYUP){
-			compteur=0;// reinitialisation joystick
-		}
-	}
-	not_pressed =1;
-	show_screen("Press key for Start");
-	while(not_pressed)
-	{
-
-		drawSprite( credit , screen , 0 , 0 , 0 , 0 , 320 , 240 );
-		redraw_screen();
-
-		SDL_PollEvent(&event);
-		if (event.type==SDL_KEYDOWN){
-			if (compteur==0 || (compteur>capex.delayspeed && ((compteur&joy_speed[capex.repeatspeed])==0))){
-			  KEYSTART = event.key.keysym.sym; 
-			  not_pressed =0;
-			}
-			++compteur;
-		}else if (event.type==SDL_KEYUP){
-			compteur=0;// reinitialisation joystick
-		}
-	}
-	not_pressed =1;
-	show_screen("Press key for Coin");
-	while(not_pressed)
-	{
-
-		drawSprite( credit , screen , 0 , 0 , 0 , 0 , 320 , 240 );
-		redraw_screen();
-
-		SDL_PollEvent(&event);
-		if (event.type==SDL_KEYDOWN){
-			if (compteur==0 || (compteur>capex.delayspeed && ((compteur&joy_speed[capex.repeatspeed])==0))){
-			  KEYSELECT = event.key.keysym.sym; 
-			  not_pressed =0;
-			}
-			++compteur;
-		}else if (event.type==SDL_KEYUP){
-			compteur=0;// reinitialisation joystick
-		}
-	}
-	not_pressed =1;
-	show_screen("Press key for Quit");
-	while(not_pressed)
-	{
-
-		drawSprite( credit , screen , 0 , 0 , 0 , 0 , 320 , 240 );
-		redraw_screen();
-
-		SDL_PollEvent(&event);
-		if (event.type==SDL_KEYDOWN){
-			if (compteur==0 || (compteur>capex.delayspeed && ((compteur&joy_speed[capex.repeatspeed])==0))){
-			  KEYQ = event.key.keysym.sym; 
-			  not_pressed =0;
-			}
-			++compteur;
-		}else if (event.type==SDL_KEYUP){
-			compteur=0;// reinitialisation joystick
-		}
-	}
-	not_pressed =1;
-	show_screen("Press key for Pause");
-	while(not_pressed)
-	{
-
-		drawSprite( credit , screen , 0 , 0 , 0 , 0 , 320 , 240 );
-		redraw_screen();
-
-		SDL_PollEvent(&event);
-		if (event.type==SDL_KEYDOWN){
-			if (compteur==0 || (compteur>capex.delayspeed && ((compteur&joy_speed[capex.repeatspeed])==0))){
-			  KEYPAUSE = event.key.keysym.sym; 
-			  not_pressed =0;
-			}
-			++compteur;
-		}else if (event.type==SDL_KEYUP){
-			compteur=0;// reinitialisation joystick
-		}
-	}
-	KeysConfigured = 1;
-
-	Uint32 Pnoir = SDL_MapRGB(credit->format, 0, 0, 0);
-	Uint32 Pblanc = SDL_MapRGB(credit->format, 255, 255, 255 );
-	//capture screen actuel
-	drawSprite( screen , credit , 0 , 0 , 0 , 0 , 320 , 240 );
-	//detourage
-	ligneV( credit , CREDIT_X-1 , CREDIT_Y , CREDIT_H , Pnoir );
-	ligneV( credit , CREDIT_X+CREDIT_L , CREDIT_Y , CREDIT_H , Pnoir );
-	ligneH( credit , CREDIT_X , CREDIT_Y-1 , CREDIT_L , Pnoir);
-	ligneH( credit , CREDIT_X , CREDIT_Y+CREDIT_H , CREDIT_L , Pnoir);
-	//cadre
-	carre_plein( credit , CREDIT_X, CREDIT_Y, CREDIT_L, CREDIT_H, Pblanc);
-	carre_plein( credit , CREDIT_X+1, CREDIT_Y+1, CREDIT_L-2, CREDIT_H-2, Pnoir);
-
-	put_string( "Set Keys" , 142 , CREDIT_Y+8 , BLANC , credit );
-	put_string( "Keys have been set.", CREDIT_X+8 , CREDIT_Y+24 , BLEU , credit );
-        put_string( "Choose an option" , CREDIT_X+8 , CREDIT_Y+34 , BLEU , credit );
-	put_string( "C) save to current rom keys." , CREDIT_X+8 , CREDIT_Y+44 , BLEU , credit );
-	put_string( "G) save to global key. " , CREDIT_X+8 , CREDIT_Y+54 , BLEU , credit );
-	put_string( "Hit any other key to discard." , CREDIT_X+8 , CREDIT_Y+64 , BLEU , credit );
-	while(1)
-	{
-		drawSprite( credit , screen , 0 , 0 , 0 , 0 , 320 , 240 );
-		redraw_screen();
-
-		SDL_PollEvent(&event);
-		if (event.type==SDL_KEYDOWN){
-			if (compteur==0 || (compteur>capex.delayspeed && ((compteur&joy_speed[capex.repeatspeed])==0))){
-				if ( event.key.keysym.sym==SDLK_c ){
-					write_rom_key();
-					return 0;
-				} else if ( event.key.keysym.sym==SDLK_g ){
-					write_global_key();
-				return 0;
-				} else return 0;
-			}
-			++compteur;
-		} else if (event.type==SDL_KEYUP){
-			compteur=0;// reinitialisation joystick
-		}
-	}
-
-	return 0;
 }
 
 char ss_prg_credit(void)
@@ -817,11 +486,11 @@ void init_title(void)
 void prep_bg_run(void)
 {
 	drawSprite( bg , bg_temp , 0 , 0 , 0 , 0 , 320 , 240 );
-	preparation_fenetre( bgs , bg_temp , 4 , 119 , 312 , 37 );
+	preparation_fenetre( bgs , bg_temp , 4 , 119 , 312 , 118 );
 	if ( flag_preview )	drawSprite(preview, bg_temp, 0, 0, 220-preview->w/2, 3, 192, 112);
 	//if ( flag_preview )	drawSprite(preview, bg_temp, 0, 0, 204, 3, 192, 112);
 
-	put_string( "FBA2X clock:" , 6 , 55 , BLANC , bg_temp);
+	//put_string( "FBA2X clock:" , 6 , 55 , BLANC , bg_temp);
 	put_string( "ROM" , 6 , 65 , BLANC , bg_temp);
 		switch(capex.list)
 		{
@@ -849,7 +518,7 @@ void prep_bg_options(void)
 	if ( flag_preview )	drawSprite(preview, bg_temp, 0, 0, 220-preview->w/2, 3, 192, 112);
 	//if ( flag_preview )	drawSprite(preview, bg_temp, 0, 0, 204, 3, 192, 112);
 
-	put_string( "FBA2X clock:" , 6 , 55 , BLANC , bg_temp);
+	//put_string( "FBA2X clock:" , 6 , 55 , BLANC , bg_temp);
 	put_string( "ROM" , 6 , 65 , BLANC , bg_temp);
 		switch(capex.list)
 		{
@@ -876,7 +545,7 @@ void prep_bg_list(void)
 	if ( flag_preview )	drawSprite(preview, bg_temp, 0, 0, 220-preview->w/2, 3, 192, 112);
 	//if ( flag_preview )	drawSprite(preview, bg_temp, 0, 0, 204, 3, 192, 112);
 
-	put_string( "FBA2X clock:" , 6 , 55 , BLANC , bg_temp);
+	//put_string( "FBA2X clock:" , 6 , 55 , BLANC , bg_temp);
 	put_string( "ROM" , 6 , 65 , BLANC , bg_temp);
 		switch(capex.list)
 		{
@@ -900,8 +569,8 @@ void affiche_BG(void)
 {
 		drawSprite( bg_temp , screen , 0 , 0 , 0 , 0 , 320 , 240 );
 
-		sprintf((char*)g_string, "%d" , options.cpu );
-		put_string( g_string , 96 , 55 , BLANC , screen );
+		//sprintf((char*)g_string, "%d" , options.cpu );
+		//put_string( g_string , 96 , 55 , BLANC , screen );
 
 		sprintf((char*)g_string, "%s.zip" , data.zip[listing_tri[capex.list][selector.num]]);
 		put_string( g_string , 30 , 65 , BLANC , screen );
@@ -927,121 +596,13 @@ void affiche_BG(void)
 
 }
 
-void affiche_ligne_options(unsigned char num, unsigned char y)
+void put_option_line(unsigned char num, unsigned char y)
 {
 	#define OPTIONS_START_X	8
 	#define CONF_START_X	272
 
 	switch (num)
 	{
-		case OPTION_NUM_FBA2X_CPU:
-			sprintf((char*)g_string, "FBA2X clock: %dMHz" , options.cpu );
-			put_string( g_string , OPTIONS_START_X , y , BLANC , screen );
-			if (conf.exist){
-				sprintf((char*)g_string, "%dMHz" , conf.cpu );
-				put_string( g_string , CONF_START_X , y , VERT , screen );
-			}else{
-				put_string( "---MHz" , CONF_START_X , y , ROUGE , screen );
-			}
-			break;
-		case OPTION_NUM_FBA2X_SOUND:
-			if (options.sound) put_string( "Sound: Enable" , OPTIONS_START_X , y , BLANC , screen );
-			else put_string( "Sound: Disable" , OPTIONS_START_X , y , BLANC , screen );
-			if (conf.exist){
-				put_string( abreviation_cf[0][conf.sound] , CONF_START_X , y , VERT , screen );
-			}else{
-				put_string( "-" , CONF_START_X , y , ROUGE , screen );
-			}
-			break;
-		case OPTION_NUM_FBA2X_SAMPLERATE:
-			sprintf((char*)g_string, "Audio sample rate: %dHz" , options.samplerate );
-			put_string( g_string , OPTIONS_START_X , y , BLANC , screen );
-			if (conf.exist){
-				sprintf((char*)g_string, "%dHz" , conf.samplerate );
-				put_string( g_string , CONF_START_X , y , VERT , screen );
-			}else{
-				put_string( "-----Hz" , CONF_START_X , y , ROUGE , screen );
-			}
-			break;
-		case OPTION_NUM_FBA2X_RESCALE:
-			if (options.rescale == 3) put_string( "Scale: Full" , OPTIONS_START_X , y , BLANC , screen );
-			else
-			if (options.rescale == 2) put_string( "Scale: Best Fit" , OPTIONS_START_X , y , BLANC , screen );
-			else if (options.rescale == 1) put_string( "Scale: 2x" , OPTIONS_START_X , y , BLANC , screen );
-			else put_string( "Scale: None" , OPTIONS_START_X , y , BLANC , screen );
-			if (conf.exist){
-				put_string( abreviation_cf[1][conf.rescale] , CONF_START_X , y , VERT , screen );
-			}else{
-				put_string( "-" , CONF_START_X , y , ROUGE , screen );
-			}
-			break;
-		case OPTION_NUM_FBA2X_SHOWFPS:
-			if (options.showfps) put_string( "Show FPS: Enable" , OPTIONS_START_X , y , BLANC , screen );
-			else put_string( "Show FPS: Disable" , OPTIONS_START_X , y , BLANC , screen );
-			if (conf.exist){
-				put_string( abreviation_cf[0][conf.showfps] , CONF_START_X , y , VERT , screen );
-
-			}else{
-				put_string( "-" , CONF_START_X , y , ROUGE , screen );
-			}
-			break;
-		case OPTION_NUM_FBA2X_FRONTEND:
-			if (options.rotate == 0xFF) put_string( "Frameskip: Auto" , OPTIONS_START_X , y , BLANC , screen );
-			else {
-				sprintf((char*)g_string, "Frameskip: %d" , options.rotate );
-				put_string( g_string , OPTIONS_START_X , y , BLANC , screen );
-			}
-			if (conf.exist){
-				if(conf.rotate == 0xFF) sprintf((char*)g_string, "%s" , "Auto" );
-				else sprintf((char*)g_string, "%d" , conf.rotate );
-				put_string( (char*)g_string , CONF_START_X , y , VERT , screen );
-			}else{
-				put_string( "-" , CONF_START_X , y , ROUGE , screen );
-			}
-			break;
-		case OPTION_NUM_FBA2X_CONFIGKEY:
-			put_string( "Configure keys" , OPTIONS_START_X , y , BLANC , screen );
-
-			break;
-		case OPTION_NUM_FBA2X_68K:
-			if (options.m68kcore == 0) put_string( "68K Emu Core: C68k" , OPTIONS_START_X , y , BLANC , screen );
-			else
-			if (options.m68kcore == 1) put_string( "68K Emu Core: M68K" , OPTIONS_START_X , y , BLANC , screen );
-			if (conf.exist){
-				put_string( abreviation_cf[3][conf.m68kcore] , CONF_START_X , y , VERT , screen );
-			}else{
-				put_string( "-" , CONF_START_X , y , ROUGE , screen );
-			}
-			break;
-		case OPTION_NUM_CAPEX_DEADZONE:
-			sprintf((char*)g_string, "Analogue Sensitivity: %d%%" , options.sense );
-			put_string( g_string , OPTIONS_START_X , y , BLANC , screen );
-			if (conf.exist){
-				sprintf((char*)g_string, "%d%%" , conf.sense );
-				put_string( g_string , CONF_START_X , y , VERT , screen );
-			}else{
-				put_string( "---%%" , CONF_START_X , y , ROUGE , screen );
-			}
-			break;
-		case OPTION_NUM_FBA2X_Z80:
-			if (options.z80core == 0) put_string( "Z80 Emu Core: CZ80" , OPTIONS_START_X , y , BLANC , screen );
-			else put_string( "Z80 Emu Core: MAME_Z80" , OPTIONS_START_X , y , BLANC , screen );
-			if (conf.exist){
-				put_string( abreviation_cf[4][conf.z80core] , CONF_START_X , y , VERT , screen );
-			}else{
-				put_string( "-" , CONF_START_X , y , ROUGE , screen );
-			}
-			break;
-		case OPTION_NUM_CAPEX_TWEAK:
-			if (options.filter == 1) put_string( "Use memory swap to file: On" , OPTIONS_START_X , y , BLANC , screen );
-			else put_string( "Use memory swap to file: Off" , OPTIONS_START_X , y , BLANC , screen );
-			if (conf.exist){
-				put_string( abreviation_cf[5][conf.filter] , CONF_START_X , y , VERT , screen );
-			}else{
-				put_string( "-" , CONF_START_X , y , ROUGE , screen );
-			}
-			break;
-
 		case OPTION_NUM_CAPEX_DELAYSPEED:
 			sprintf((char*)g_string, "CAPEX delay speed: %d" , capex.delayspeed );
 			put_string( g_string , OPTIONS_START_X , y , BLANC , screen );
@@ -1065,13 +626,6 @@ void affiche_ligne_options(unsigned char num, unsigned char y)
 			if (capex.skin) put_string( "External CAPEX skin: Enable" , OPTIONS_START_X , y , BLANC , screen );
 			else put_string( "External CAPEX skin: Disable" , OPTIONS_START_X , y , BLANC , screen );
 			break;
-		case OPTION_NUM_SAVE:
-			put_string( "Save all settings" , OPTIONS_START_X , y , flag_save , screen );
-			break;
-		case OPTION_NUM_SAVE_CF:
-			sprintf((char*)g_string, "Save FBA2X settings in %s.cf file" , conf.cf );
-			put_string( g_string , OPTIONS_START_X , y , flag_save , screen );
-			break;
 		case OPTION_NUM_RETURN:
 			put_string( "Return to the game list" , OPTIONS_START_X , y , BLANC , screen );
 			break;
@@ -1090,26 +644,27 @@ void ss_prg_options(void)
 
 	unsigned option_start;
 
-	prep_bg_options();
+	load_cfg();
+
+	prep_bg_run();
 
 	Quit=0;
 	while(!Quit)
 	{
 		affiche_BG();
 
-		drawSprite(barre , screen, 0, 0, 4, options.y, 260, 10);
-		drawSprite(barre , screen, 0, 0, 269, options.y, 47, 10);
+		drawSprite(barre , screen, 0, 0, 4, options.y, 312, 10);
 
 		option_start = START_Y;
 		for ( y = options.offset_num ; y<(options.offset_num+13) ; ++y){
-			affiche_ligne_options( y , option_start );
+			put_option_line( y , option_start );
 			option_start += 9;
 		}
 		redraw_screen();
 		//SDL_Flip(screen);
 
 		SDL_PollEvent(&event);
-		if (event.type==SDL_KEYDOWN){
+		if (event.type==SDL_KEYDOWN) {
 			if (compteur==0 || (compteur>capex.delayspeed && ((compteur&joy_speed[capex.repeatspeed])==0))){
 				if ( event.key.keysym.sym==SDLK_DOWN /*&& options.num<12 */){
 					//++ options.num;
@@ -1133,9 +688,9 @@ void ss_prg_options(void)
 					//-- options.num;
 					//options.y -= 9;
 					if ( options.num == 0 && compteur==0 ){
-						options.y = START_Y -1 + (12*9) ;
+						options.y = START_Y -1 + ((NOMBRE_OPTIONS < 12 ? NOMBRE_OPTIONS : 12)*9) ;
 						options.num = NOMBRE_OPTIONS;
-						options.offset_num = NOMBRE_OPTIONS - 12;
+						options.offset_num = NOMBRE_OPTIONS < 12 ? 0 : NOMBRE_OPTIONS - 12;
 					}else{
 						if ( options.num > ( NOMBRE_OPTIONS - 7 ) || options.offset_num == 0 ){
 							if (options.num>0){
@@ -1149,18 +704,6 @@ void ss_prg_options(void)
 					}
 				}else if ( event.key.keysym.sym==SDLK_LEFT ){
 					switch(options.num){
-						case OPTION_NUM_CAPEX_DEADZONE:
-							flag_save = ROUGE;
-							--options.sense;
-							if (options.sense < 10) options.sense=100;
-							break;
-
-						case OPTION_NUM_FBA2X_CPU:
-							flag_save = ROUGE;
-							break;
-						case OPTION_NUM_FBA2X_Z80:
-							flag_save = ROUGE;
-							break;
 						case OPTION_NUM_CAPEX_DELAYSPEED:
 							flag_save = ROUGE;
 							-- capex.delayspeed;
@@ -1179,15 +722,6 @@ void ss_prg_options(void)
 					}
                 } else if ( event.key.keysym.sym==SDLK_RIGHT ){
 					switch(options.num){
-						case OPTION_NUM_CAPEX_DEADZONE:
-							flag_save = ROUGE;
-							++options.sense;
-							if (options.sense > 100) options.sense=10;
-							break;
-
-						case OPTION_NUM_FBA2X_CPU:
-							flag_save = ROUGE;
-							break;
 						case OPTION_NUM_CAPEX_DELAYSPEED:
 							flag_save = ROUGE;
 							++ capex.delayspeed;
@@ -1206,50 +740,6 @@ void ss_prg_options(void)
 					}
                     } else if ( event.key.keysym.sym==SDLK_LCTRL){
 					switch(options.num){
-						case OPTION_NUM_FBA2X_SOUND:
-							flag_save = ROUGE;
-							++options.sound;
-							options.sound &= 1;
-							break;
-						case OPTION_NUM_FBA2X_SAMPLERATE:
-							flag_save = ROUGE;
-							options.samplerate = options.samplerate * 2;
-							if ( options.samplerate == 88200 ) options.samplerate = 11025;
-							break;
-						case OPTION_NUM_FBA2X_RESCALE:
-							flag_save = ROUGE;
-							++options.rescale;
-							if ( options.rescale > 3 ) options.rescale = 0;
-							break;
-						case OPTION_NUM_FBA2X_SHOWFPS:
-							flag_save = ROUGE;
-							++options.showfps;
-							options.showfps &= 1;
-							break;
-						case OPTION_NUM_FBA2X_FRONTEND:
-							flag_save = ROUGE;
-							++options.rotate;
-							if ( options.rotate > 59 ) options.rotate = 0xFF;
-							break;
-						case OPTION_NUM_FBA2X_68K:
-							flag_save = ROUGE;
-							++options.m68kcore;
-							if (options.m68kcore>1) options.m68kcore= 0;
-							break;
-                        case OPTION_NUM_FBA2X_Z80:
-                            flag_save = ROUGE;
-							++options.z80core;
-							if (options.z80core>1) options.z80core= 0;
-							break;
-						case OPTION_NUM_CAPEX_TWEAK:
-							flag_save = ROUGE;
-							++options.filter;
-							if (options.filter>1) options.filter= 0;
-							break;
-						case OPTION_NUM_FBA2X_CONFIGKEY:
-							flag_save = ROUGE;
-							set_keys();
-							break;
 						case OPTION_NUM_CAPEX_LIST:
 							flag_save = ROUGE;
 							++capex.list;
@@ -1263,24 +753,6 @@ void ss_prg_options(void)
 							flag_save = ROUGE;
 							++capex.skin;
 							capex.skin &= 1;
-							break;
-						case OPTION_NUM_SAVE:
-							write_cfg();
-							if (KeysConfigured ) /*{
-								write_global_key();
-								KeysConfigured = 0;
-							}*/
-							flag_save = VERT;
-							break;
-						case OPTION_NUM_SAVE_CF:
-							write_cf( );
-							/*if (KeysConfigured ) {
-								write_rom_key();
-								KeysConfigured = 0;
-							}*/
-							flag_save = VERT;
-							load_cf();
-							load_cfg();
 							break;
 						case OPTION_NUM_RETURN:
 							prep_bg_list();
@@ -1298,6 +770,94 @@ void ss_prg_options(void)
 		}
 
 	}
+	write_cfg();
+}
+
+void put_run_option_line(unsigned char num, unsigned char y)
+{
+	#define OPTIONS_START_X	8
+	#define CONF_START_X	272
+
+	switch (num)
+	{
+		case OPTION_FBA_RUN:
+			put_string( "Run game" , OPTIONS_START_X , y , BLANC , screen );
+			break;
+		case OPTION_FBA_SOUND:
+			put_string( "Sound" , OPTIONS_START_X , y , BLANC , screen );
+
+			if (conf.exist) {
+				put_string(abreviation_cf[0][conf.sound], CONF_START_X, y, VERT, screen);
+			} else {
+				put_string("-", CONF_START_X, y, ROUGE, screen);
+			}
+			break;
+		case OPTION_FBA_SAMPLERATE:
+			put_string("Audio sample rate", OPTIONS_START_X , y , BLANC , screen );
+
+			if (conf.exist) {
+				sprintf((char*)g_string, "%dHz" , conf.samplerate );
+				put_string(g_string, CONF_START_X, y, VERT, screen);
+			} else {
+				put_string("-----Hz", CONF_START_X, y, ROUGE, screen);
+			}
+			break;
+		case OPTION_FBA_RESCALE:
+			put_string("Scale", OPTIONS_START_X, y, BLANC, screen);
+
+			if (conf.exist) {
+				put_string(abreviation_cf[1][conf.rescale], CONF_START_X, y, VERT, screen);
+			} else {
+				put_string("-", CONF_START_X, y, ROUGE, screen);
+			}
+			break;
+		case OPTION_FBA_SHOWFPS:
+			put_string("Show FPS", OPTIONS_START_X, y, BLANC, screen);
+
+			if (conf.exist) {
+				put_string(abreviation_cf[0][conf.showfps], CONF_START_X, y, VERT, screen);
+			} else {
+				put_string("-" , CONF_START_X, y, ROUGE, screen);
+			}
+			break;
+		case OPTION_FBA_68K:
+			put_string("68K Emu Core", OPTIONS_START_X, y, BLANC, screen);
+
+			if (conf.exist) {
+				put_string(abreviation_cf[3][conf.m68kcore], CONF_START_X, y, VERT, screen);
+			} else {
+				put_string("-" , CONF_START_X, y, ROUGE, screen);
+			}
+			break;
+		case OPTION_FBA_Z80:
+			put_string("Z80 Emu Core", OPTIONS_START_X, y, BLANC, screen);
+
+			if (conf.exist) {
+				put_string(abreviation_cf[4][conf.z80core], CONF_START_X, y, VERT, screen);
+			} else {
+				put_string("-", CONF_START_X, y, ROUGE, screen);
+			}
+			break;
+		case OPTION_FBA_ANALOG:
+			put_string("Analogue Sensitivity", OPTIONS_START_X, y, BLANC, screen);
+
+			if (conf.exist) {
+				sprintf((char*)g_string, "%d%%" , conf.sense);
+				put_string(g_string, CONF_START_X, y, VERT, screen);
+			} else {
+				put_string("---%%", CONF_START_X, y, ROUGE, screen);
+			}
+			break;
+		case OPTION_FBA_SWAP:
+			put_string( "Use memory swap to file" , OPTIONS_START_X , y , BLANC , screen );
+
+			if (conf.exist) {
+				put_string(abreviation_cf[5][conf.filter], CONF_START_X, y, VERT, screen);
+			} else {
+				put_string("-", CONF_START_X, y, ROUGE, screen);
+			}
+			break;
+	}
 }
 
 void ss_prog_run(void)
@@ -1306,306 +866,229 @@ void ss_prog_run(void)
 
 	int Quit;
 	unsigned int compteur = 1;
-	if (conf.exist)
-	{
-		run.y = START_Y-1;
-		run.num = 0;
-	}
-	else
-	{
-		run.y = START_Y+8;
-		run.num = 1;
-	}
 
+	load_cf();
+	if(!conf.exist) write_cf();
 
-	prep_bg_run();
+	run.y = START_Y-1;
+	run.num = 0;
+
+	prep_bg_options();
 
 	Quit=0;
 	while(!Quit)
 	{
 		affiche_BG();
-		drawSprite(barre , screen, 0, 0, 4, run.y, 312, 10);
 
-		sprintf((char*)g_string, "Launch %s.zip with global settings" , data.zip[listing_tri[capex.list][selector.num]] );
-		put_string( g_string , RUN_START_X , START_Y+9 , BLANC , screen );
+		drawSprite(barre , screen, 0, 0, 4, run.y, 260, 10);
+		drawSprite(barre , screen, 0, 0, 269, run.y, 47, 10);
 
-		sprintf((char*)g_string, "Launch %s.zip with %s.cf settings" , data.zip[listing_tri[capex.list][selector.num]] , conf.cf);
-		put_string( g_string , RUN_START_X , START_Y , BLANC , screen );
-
-		put_string( "Return to the game list" , RUN_START_X , START_Y+18 , BLANC , screen );
-
-		put_string( "Quit CAPEX" , RUN_START_X , START_Y+27 , BLANC , screen );
+		int option_start = START_Y;
+		int y;
+		for (y = run.offset_num; y < (run.offset_num + 13); y++) {
+			put_run_option_line(y, option_start);
+			option_start += 9;
+		}
 
 		redraw_screen();
 		//SDL_Flip(screen);
 
 		SDL_PollEvent(&event);
-		if (event.type==SDL_KEYDOWN){
-			if (compteur==0 || (compteur>capex.delayspeed && ((compteur&joy_speed[capex.repeatspeed])==0))){
-				if ( event.key.keysym.sym==SDLK_DOWN ){
-					++ run.num;
-					if ( run.num == 4){
-						run.y = START_Y-1;
-						run.num = 0;
+		if(event.type == SDL_KEYDOWN) {
+			if(compteur == 0 || (compteur > capex.delayspeed && ((compteur & joy_speed[capex.repeatspeed]) == 0))) {
+				if(event.key.keysym.sym == SDLK_DOWN) {
+					run.num++;
+					if(run.num > OPTION_FBA_LAST) {
+						run.y = START_Y - 1;
+						run.num = OPTION_FBA_FIRST;
+						run.offset_num = run.num;
+					} else {
+						if(run.num <= 7 || run.offset_num > OPTION_FBA_LAST - 12) {
+							run.y += 9;
+						} else run.offset_num++;
+					}
+				} else if(event.key.keysym.sym == SDLK_UP) {
+					run.num--;
+					if(run.num < OPTION_FBA_FIRST){
+						run.y = START_Y - 1 + ((OPTION_FBA_LAST < 12 ? OPTION_FBA_LAST : 12)*9);
+						run.num = OPTION_FBA_LAST;
+						run.offset_num = OPTION_FBA_LAST < 12 ? 0 : OPTION_FBA_LAST - 12;
+					} else {
+						if(run.num >= OPTION_FBA_LAST - 7 || run.offset_num == 0) run.y -= 9; else run.offset_num--;
+					}
+				} else if (event.key.keysym.sym == SDLK_LEFT) {
+					switch(run.num) {
+						case OPTION_FBA_SOUND:
+							conf.sound ^= 1;
+							break;
+						case OPTION_FBA_SAMPLERATE:
+							conf.samplerate >>= 1;
+							if(conf.samplerate < 11025) conf.samplerate = 44100;
+							break;
+						case OPTION_FBA_RESCALE:
+							conf.rescale ^= 1;
+							break;
+						case OPTION_FBA_SHOWFPS:
+							conf.showfps ^= 1;
+							break;
+						case OPTION_FBA_68K:
+							conf.m68kcore ^= 1;
+							break;
+						case OPTION_FBA_Z80:
+							conf.z80core ^= 1;
+							break;
+						case OPTION_FBA_ANALOG:
+							conf.sense--;
+							if(conf.sense < 0) conf.sense = 100;
+							break;
+						case OPTION_FBA_SWAP:
+							conf.filter ^= 1;
+							break;
+					}
+				} else if (event.key.keysym.sym == SDLK_RIGHT) {
+					switch(run.num) {
+						case OPTION_FBA_SOUND:
+							conf.sound ^= 1;
+							break;
+						case OPTION_FBA_SAMPLERATE:
+							conf.samplerate <<= 1;
+							if(conf.samplerate > 44100) conf.samplerate = 11025;
+							break;
+						case OPTION_FBA_RESCALE:
+							conf.rescale ^= 1;
+							break;
+						case OPTION_FBA_SHOWFPS:
+							conf.showfps ^= 1;
+							break;
+						case OPTION_FBA_68K:
+							conf.m68kcore ^= 1;
+							break;
+						case OPTION_FBA_Z80:
+							conf.z80core ^= 1;
+							break;
+						case OPTION_FBA_ANALOG:
+							conf.sense++;
+							if(conf.sense > 100) conf.sense = 0;
+							break;
+						case OPTION_FBA_SWAP:
+							conf.filter ^= 1;
+							break;
+					}
+				} else if (event.key.keysym.sym == SDLK_LCTRL) {
+					FILE * outlistno;
+					outlistno=fopen("./config/lastsel.cap","w");
+					fwrite(&selector.num,1,sizeof(int),outlistno);
+					fwrite(&selector.offset_num,1,sizeof(int),outlistno);
+					fwrite(&selector.y,1,sizeof(char),outlistno);
+					fclose(outlistno);
+					write_cf();
+
+					ar=0;
+					#ifdef WIN32
+					argument[ ar ] = "fbasdl.exe";
+					#else
+					argument[ ar ] = "fbasdl.dge";
+					#endif
+					++ar;
+
+					if(data.etat[listing_tri[capex.list][selector.num]] == BLEU)
+						sprintf((char*)g_string, "%s/%s.fba" , capex.rompath,data.zip[listing_tri[capex.list][selector.num]]);
+					else
+						sprintf((char*)g_string, "%s/%s.zip" , capex.rompath,data.zip[listing_tri[capex.list][selector.num]]);
+
+					argument[ ar ] = (char*) calloc( strlen(g_string) + 1 , sizeof(char));
+					strcpy(argument[ ar ],g_string);
+					++ar;
+
+					/*sprintf((char*)g_string, "--sense=%d" , conf.sense);
+					argument[ ar ] = (char*) calloc( strlen(g_string) + 1 , sizeof(char));
+					strcpy(argument[ ar ],g_string);
+					++ar;*/
+
+					if (conf.sound){
+						argument[ ar ] = "--sound-sdl";
+						++ar;
+
+						sprintf((char*)g_string, "--samplerate=%d" , conf.samplerate);
+						argument[ ar ] = (char*) calloc( strlen(g_string) + 1 , sizeof(char));
+						strcpy(argument[ ar ],g_string);
+						++ar;
 					}else{
-						run.y += 9;
+						argument[ ar ] = "--no-sound";
+						++ar;
 					}
-				}else if ( event.key.keysym.sym==SDLK_UP ){
-					-- run.num;
-					if ( run.num == -1){
-						run.y = START_Y -1 + (3*9);
-						run.num = 3;
+
+					/*if (conf.rescale == 3){
+						argument[ ar ] = "--scaling=3";
+						++ar;
+					}else if (conf.rescale == 2){
+						argument[ ar ] = "--scaling=2";
+						++ar;
+					}else if (conf.rescale == 1){
+						argument[ ar ] = "--scaling=1";
+						++ar;
 					}else{
-						run.y -= 9;
+						argument[ ar ] = "--scaling=0";
+						++ar;
+					}*/
+
+					/*if (conf.rotate == 0xff){
+						argument[ ar ] = "--frameskip=auto";
+						++ar;
+					}else{
+						sprintf((char*)g_string, "--frameskip=%d" , conf.rotate);
+						argument[ ar ] = (char*) calloc( strlen(g_string) + 1 , sizeof(char));
+						strcpy(argument[ ar ], g_string);
+						++ar;
+					}*/
+
+					if (conf.m68kcore == 2){
+						argument[ ar ] = "--68kcore=2";
+						++ar;
+					} else if (conf.m68kcore == 1){
+						argument[ ar ] = "--68kcore=1";
+						++ar;
+					} else if (conf.m68kcore == 0){
+						argument[ ar ] = "--68kcore=0";
+						++ar;
 					}
-				}else if ( event.key.keysym.sym==SDLK_LCTRL ){
-				    FILE * outlistno;
-				    outlistno=fopen("./config/lastsel.cap","w");
-				    fwrite(&selector.num,1,sizeof(int),outlistno);
-				    fwrite(&selector.offset_num,1,sizeof(int),outlistno);
-				    fwrite(&selector.y,1,sizeof(char),outlistno);
-				    fclose(outlistno);
-					switch (run.num)
-					{
-						case 1:
 
-							ar=0;
-							#ifdef WIN32
-							argument[ ar ] = "fbasdl.exe";
-							#else
-							argument[ ar ] = "fbasdl.dge";
-							#endif
-							++ar;
-
-							if(data.etat[listing_tri[capex.list][selector.num]] == BLEU)
-								sprintf((char*)g_string, "%s/%s.fba" , capex.rompath,data.zip[listing_tri[capex.list][selector.num]]);
-							else
-								sprintf((char*)g_string, "%s/%s.zip" , capex.rompath,data.zip[listing_tri[capex.list][selector.num]]);
-
-							argument[ ar ] = (char*) calloc( strlen(g_string) + 1 , sizeof(char));
-							strcpy(argument[ ar ],g_string);
-							++ar;
-
-							/*sprintf((char*)g_string, "--clock=%d" , options.cpu);
-							argument[ ar ] = (char*) calloc( strlen(g_string) + 1 , sizeof(char));
-							strcpy(argument[ ar ],g_string);
-							++ar;
-
-							sprintf((char*)g_string, "--sense=%d" , options.sense);
-							argument[ ar ] = (char*) calloc( strlen(g_string) + 1 , sizeof(char));
-							strcpy(argument[ ar ],g_string);
-							++ar;*/
-
-							if (options.sound){
-								argument[ ar ] = "--sound-sdl";
-								++ar;
-
-								sprintf((char*)g_string, "--samplerate=%d" , options.samplerate);
-								argument[ ar ] = (char*) calloc( strlen(g_string) + 1 , sizeof(char));
-								strcpy(argument[ ar ],g_string);
-								++ar;
-							}else{
-								argument[ ar ] = "--no-sound";
-								++ar;
-							}
-
-                           /* if (options.rescale == 3){
-								//argument[ ar ] = "--hwho-rescale";
-								argument[ ar ] = "--scaling=3";
-								++ar;
-							}else if (options.rescale == 2){
-								argument[ ar ] = "--scaling=2";
-								++ar;
-							}else if (options.rescale == 1){
-								argument[ ar ] = "--scaling=1";
-								++ar;
-							}else{
-								argument[ ar ] = "--scaling=0";
-								++ar;
-							}*/
-
-							if (options.rotate == 0xff){
-								argument[ ar ] = "--frameskip=auto";
-								++ar;
-							}else{
-								sprintf((char*)g_string, "--frameskip=%d" , options.rotate);
-								argument[ ar ] = (char*) calloc( strlen(g_string) + 1 , sizeof(char));
-								strcpy(argument[ ar ], g_string);
-								++ar;
-							}
-
-							if (options.m68kcore == 2){
-								argument[ ar ] = "--68kcore=2";
-								++ar;
-							} else if (options.m68kcore == 1){
-								argument[ ar ] = "--68kcore=1";
-								++ar;
-							} else if (options.m68kcore == 0){
-								argument[ ar ] = "--68kcore=0";
-								++ar;
-							}
-
-							if (options.z80core == 1) {
-								argument[ ar ] = "--z80core=1";
-								++ar;
-							}else if (options.z80core == 0){
-								argument[ ar ] = "--z80core=0";
-								++ar;
-							}
-
-							if (options.filter == 1){
-								argument[ ar ] = "--use-swap";
-								++ar;
-							}
-
-							if (options.showfps){
-								argument[ ar ] = "--showfps";
-								++ar	;
-							}
-
-							if (options.frontend){
-								argument[ ar ] = "--frontend=./fbacapex.dge";
-								++ar	;
-							}
-
-							argument[ ar ] = (char *)0;
-							#ifdef WIN32
-							path = "fbasdl.exe";
-							#else
-							path = "fbasdl.dge";
-							#endif
-
-
-							free_memory();
-							SDL_Quit();
-
-							execv(path, /*(const char * const *)*/argument);
-							break;
-						case 0:
-							if (conf.exist) {
-								//if (options.gamma != 100 ) set_gamma(options.gamma);
-
-								ar=0;
-								#ifdef WIN32
-								argument[ ar ] = "fbasdl.exe";
-								#else
-								argument[ ar ] = "fbasdl.dge";
-								#endif
-								++ar;
-
-								if(data.etat[listing_tri[capex.list][selector.num]] == BLEU)
-									sprintf((char*)g_string, "%s/%s.fba" , capex.rompath,data.zip[listing_tri[capex.list][selector.num]]);
-								else
-									sprintf((char*)g_string, "%s/%s.zip" , capex.rompath,data.zip[listing_tri[capex.list][selector.num]]);
-
-								argument[ ar ] = (char*) calloc( strlen(g_string) + 1 , sizeof(char));
-								strcpy(argument[ ar ],g_string);
-								++ar;
-
-								/*sprintf((char*)g_string, "--clock=%d" , conf.cpu);
-								argument[ ar ] = (char*) calloc( strlen(g_string) + 1 , sizeof(char));
-								strcpy(argument[ ar ],g_string);
-								++ar;
-
-								sprintf((char*)g_string, "--sense=%d" , conf.sense);
-								argument[ ar ] = (char*) calloc( strlen(g_string) + 1 , sizeof(char));
-								strcpy(argument[ ar ],g_string);
-								++ar;*/
-
-								if (conf.sound){
-									argument[ ar ] = "--sound-sdl";
-									++ar;
-
-									sprintf((char*)g_string, "--samplerate=%d" , conf.samplerate);
-									argument[ ar ] = (char*) calloc( strlen(g_string) + 1 , sizeof(char));
-									strcpy(argument[ ar ],g_string);
-									++ar;
-								}else{
-									argument[ ar ] = "--no-sound";
-									++ar;
-								}
-
-								/*if (conf.rescale == 3){
-									//argument[ ar ] = "--hwho-rescale";
-									argument[ ar ] = "--scaling=3";
-									++ar;
-								}else if (conf.rescale == 2){
-									argument[ ar ] = "--scaling=2";
-									++ar;
-								}else if (conf.rescale == 1){
-									argument[ ar ] = "--scaling=1";
-									++ar;
-								}else{
-									argument[ ar ] = "--scaling=0";
-									++ar;
-								}*/
-
-								if (conf.rotate == 0xff){
-									argument[ ar ] = "--frameskip=auto";
-									++ar;
-								}else{
-									sprintf((char*)g_string, "--frameskip=%d" , conf.rotate);
-									argument[ ar ] = (char*) calloc( strlen(g_string) + 1 , sizeof(char));
-									strcpy(argument[ ar ], g_string);
-									++ar;
-								}
-
-								if (conf.m68kcore == 2){
-									argument[ ar ] = "--68kcore=2";
-									++ar;
-								} else if (conf.m68kcore == 1){
-									argument[ ar ] = "--68kcore=1";
-									++ar;
-								} else if (conf.m68kcore == 0){
-									argument[ ar ] = "--68kcore=0";
-									++ar;
-								}
-
-								if (conf.z80core == 1){
-									argument[ ar ] = "--z80core=1";
-									++ar;
-								}else if (conf.z80core == 0){
-									argument[ ar ] = "--z80core=0";
-									++ar;
-								}
-
-								if (conf.filter == 1){
-									argument[ ar ] = "--use-swap";
-									++ar;
-								}
-
-								if (conf.showfps){
-									argument[ ar ] = "--showfps";
-									++ar	;
-								}
-
-								if (options.frontend){
-									argument[ ar ] = "--frontend=./fbacapex.dge";
-									++ar	;
-								}
-
-								argument[ ar ] = (char *)0;
-								#ifdef WIN32
-								path = "fbasdl.exe";
-								#else
-								path = "fbasdl.dge";
-								#endif
-
-								free_memory();
-								SDL_Quit();
-
-								execv(path, /*(const char * const *)*/argument);
-							}
-							break;
-						case 2:
-							prep_bg_list();
-							Quit = 1;
-							break;
-						case 3:
-							exit_prog();
-							break;
+					if (conf.z80core == 1){
+						argument[ ar ] = "--z80core=1";
+						++ar;
+					}else if (conf.z80core == 0){
+						argument[ ar ] = "--z80core=0";
+						++ar;
 					}
-				} else if(event.key.keysym.sym==SDLK_LALT) {
+
+					if (conf.filter == 1){
+						argument[ ar ] = "--use-swap";
+						++ar;
+					}
+
+					if (conf.showfps){
+						argument[ ar ] = "--showfps";
+						++ar	;
+					}
+
+					if (options.frontend){
+						argument[ ar ] = "--frontend=./fbacapex.dge";
+						++ar	;
+					}
+
+					argument[ ar ] = (char *)0;
+					#ifdef WIN32
+					path = "fbasdl.exe";
+					#else
+					path = "fbasdl.dge";
+					#endif
+
+					free_memory();
+					SDL_Quit();
+
+					execv(path, /*(const char * const *)*/argument);
+
+				} else if(event.key.keysym.sym == SDLK_LALT) {
 					prep_bg_list();
 					Quit = 1;
 				}
@@ -1615,7 +1098,7 @@ void ss_prog_run(void)
 			compteur=0;// reinitialisation joystick
 		}
 	}
-
+	write_cf();
 }
 
 int findfirst(int l,int s)
@@ -1646,7 +1129,7 @@ int main(int argc, char *argv[])
 	unsigned int compteur = 0;
 
 	printf("CAPEX frontend for FBASDL\n");
-	printf("v0.1 by JYCET, Opendingux port by exmortis@yandex.ru \n");
+	printf("v0.1 by JYCET, OpenDingux port by exmortis@yandex.ru \n");
 
 	SDL_Init(SDL_INIT_JOYSTICK | SDL_INIT_VIDEO | SDL_INIT_TIMER);
 
