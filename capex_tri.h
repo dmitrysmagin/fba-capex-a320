@@ -1,5 +1,7 @@
-/*  CAPEX for GP2X
+/*  
+    CAPEX for FBASDL (OpenDingux)
 
+    Copyright (C) 2012 OpenDingux adaptation from Fba2x-capex by d_smagin
     Copyright (C) 2007  JyCet
 
     This program is free software; you can redistribute it and/or modify

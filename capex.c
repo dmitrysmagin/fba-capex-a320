@@ -1,6 +1,8 @@
-/*  CAPEX for FBA2X
+/*  
+	CAPEX for FBASDL (OpenDingux)
 
-	Copyright (C) 2007  JyCet
+	Copyright (C) 2012 OpenDingux adaptation from Fba2x-capex by d_smagin
+	Copyright (C) 2007 JyCet
 	Copyright (C) 2008 Juanvvc. Adapted from capex for cps2emu by Jycet
 
 	This program is free software; you can redistribute it and/or modify
@@ -17,11 +19,6 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
-
-// CAPEX
-// FBA2X Frontend
-// JYCET & Juanvvc 2K8
-// v0.1
 
 #include <stdio.h>
 #include <stdlib.h>

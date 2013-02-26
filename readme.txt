@@ -1,3 +1,36 @@
+
+CAPEX frontend for Final Burn Alpha SDL (OpenDingux)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+KEYS:
+UP/DOWN - navigate through the menus
+LEFT/RIGHT - alter settings in config menu
+A - launch a game (first game config appears, press second time to run)
+B - go back to previous menu
+X - Help screen
+SELECT - exit to OpenDingux
+START - Capex settings
+
+ROMS COLOR:
+RED = missing
+ORANGE = clone rom detected
+YELLOW = parent rom detected or clone rom detected & parent rom detected
+GREEN = clone rom detected & parent rom detected & cache detected
+BLUE = parent rom detected & cache detected
+
+MANDATORY FILES TO RUN:
+rominfo.fba
+zipname.fba
+
+SOURCE CODE:
+https://github.com/dmitrysmagin/fba-capex-a320
+
+exmortis[at]yandex[dot]ru
+
+
+Old readme.txt below
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 CAPEX frontend by JYCET
 for CPS2EMU emulator by Ell
 
