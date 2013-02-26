@@ -11,7 +11,7 @@ CXX = mipsel-linux-g++
 SDL_FLAGS = -D_GNU_SOURCE=1 -D_REENTRANT
 SDL_LIBS = -L/local/lib -lSDL -lSDL_image
 
-CFLAGS = -g $(SDL_FLAGS)
+CFLAGS = -g $(SDL_FLAGS) -std=gnu99
 CXXFLAGS = $(SDL_FLAGS) -Wall
 LIBS = $(SDL_LIBS)
 

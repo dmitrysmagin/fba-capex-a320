@@ -28,18 +28,6 @@ void load_cfg()
 	char ligne[256];
 
 	// force default settings
-	//options.cpu = 366;
-	options.sound = 1;
-	options.samplerate = 22050;
-	options.rescale = 0;
-	options.rotate = 0xFF; // auto frameskip by default
-	options.sense = 100;
-	options.showfps = 0;
-	options.frontend = 1;
-	options.m68kcore = 0;
-	options.z80core = 0;
-
-	capex.clock = 66;
 	capex.tweak = 0;
 	capex.delayspeed = 30;
 	capex.repeatspeed = 1;
@@ -56,7 +44,6 @@ void load_cfg()
 			sscanf(ligne, "%s %s", &arg1,&arg2);
 			if (strcmp(arg1, "#") != 0) {
 				if (strcmp(arg1,"capex_deadzone")==0) capex.deadzone = argd;
-				else if (strcmp(arg1,"capex_clock")==0) capex.clock = argd;
 				else if (strcmp(arg1,"capex_tweak")==0) capex.tweak = argd;
 				else if (strcmp(arg1,"capex_delay_speed")==0) capex.delayspeed = argd;
 				else if (strcmp(arg1,"capex_repeat_speed")==0) capex.repeatspeed = argd;
@@ -80,62 +67,64 @@ void load_cf(void)
 
 
 	if ( strcmp( data.parent[listing_tri[capex.list][selector.num]] , "fba" ) == 0 ){
-		conf.cf = (char*) calloc( strlen(data.zip[listing_tri[capex.list][selector.num]]) + 1 , sizeof(char));
-		strcpy( conf.cf , data.zip[listing_tri[capex.list][selector.num]] );
+		options.cf = (char*) calloc( strlen(data.zip[listing_tri[capex.list][selector.num]]) + 1 , sizeof(char));
+		strcpy( options.cf , data.zip[listing_tri[capex.list][selector.num]] );
 	}else{
-		conf.cf = (char*) calloc( strlen(data.parent[listing_tri[capex.list][selector.num]]) + 1 , sizeof(char));
-		strcpy( conf.cf , data.parent[listing_tri[capex.list][selector.num]] );
+		options.cf = (char*) calloc( strlen(data.parent[listing_tri[capex.list][selector.num]]) + 1 , sizeof(char));
+		strcpy( options.cf , data.parent[listing_tri[capex.list][selector.num]] );
 	}
 
 
 	// read the specific config file
-	sprintf((char*)g_string, "./config/%s.cf", conf.cf);
+	sprintf((char*)g_string, "./config/%s.cf", options.cf);
 
 	if ((fp = fopen( g_string , "r")) != NULL) {
 
 		// mark file as present
-		conf.exist = 1;
+		options.exist = 1;
 
 		// force default settings
-		conf.sound = 1;
-		conf.samplerate = 22050;
-		conf.rescale = 0;
-		conf.showfps = 0;
-		conf.m68kcore = 0;
-		conf.z80core = 0;
-		conf.sense = 100;
-		conf.filter = 0;
+		options.sound = 1;
+		options.samplerate = 22050;
+		options.rescale = 0;
+		options.frameskip = 0;
+		options.showfps = 0;
+		options.m68kcore = 0;
+		options.z80core = 0;
+		options.sense = 100;
+		options.filter = 0;
 
 		while(fgets(ligne,sizeof(ligne),fp) != NULL){
 
 			sscanf(ligne, "%s %d", &arg1,&argd);
 
 			if (strcmp(arg1,"#") != 0) {
-				if (strcmp(arg1,"fba_sound")==0) conf.sound = argd;
-				else if (strcmp(arg1,"fba_samplerate")==0) conf.samplerate = argd;
-				else if (strcmp(arg1,"fba_rescale")==0) conf.rescale = argd;
-				else if (strcmp(arg1,"fba_frameskip")==0) conf.rotate = argd;
-				else if (strcmp(arg1,"fba_sensitivity")==0) conf.sense = argd;
-				else if (strcmp(arg1,"fba_showfps")==0) conf.showfps = argd;
-				else if (strcmp(arg1,"m68k_core")==0) conf.m68kcore = argd;
-				else if (strcmp(arg1,"z80_core")==0) conf.z80core = argd;
-				else if (strcmp(arg1,"swap")==0) conf.filter = argd;
+				if (strcmp(arg1,"fba_sound")==0) options.sound = argd;
+				else if (strcmp(arg1,"fba_samplerate")==0) options.samplerate = argd;
+				else if (strcmp(arg1,"fba_rescale")==0) options.rescale = argd;
+				else if (strcmp(arg1,"fba_frameskip")==0) options.frameskip = argd;
+				else if (strcmp(arg1,"fba_sensitivity")==0) options.sense = argd;
+				else if (strcmp(arg1,"fba_showfps")==0) options.showfps = argd;
+				else if (strcmp(arg1,"m68k_core")==0) options.m68kcore = argd;
+				else if (strcmp(arg1,"z80_core")==0) options.z80core = argd;
+				else if (strcmp(arg1,"swap")==0) options.filter = argd;
 			}
 		}
 		fclose(fp);
 	} else {
 		// mark file as absent
-		conf.exist = 0;
+		options.exist = 0;
 
 		// force default settings
-		conf.sound = 1;
-		conf.samplerate = 22050;
-		conf.rescale = 0;
-		conf.showfps = 0;
-		conf.m68kcore = 0;
-		conf.z80core = 0;
-		conf.sense = 100;
-		conf.filter = 0;
+		options.sound = 1;
+		options.samplerate = 22050;
+		options.rescale = 0;
+		options.frameskip = 0;
+		options.showfps = 0;
+		options.m68kcore = 0;
+		options.z80core = 0;
+		options.sense = 100;
+		options.filter = 0;
 	}
 }
 
@@ -312,7 +301,7 @@ char lecture_rominfo(void)
 
 	int found=0;
 
-	printf("lecture fichier rominfo.fba\n");
+	printf("Reading rominfo.fba\n");
 	if ((fp = fopen("rominfo.fba", "r")) != NULL){
 		//printf("[");
 		while(fgets(ligne,sizeof(ligne),fp) != NULL){
@@ -338,7 +327,6 @@ char lecture_rominfo(void)
 		//printf("]\n");
 
 	}
-	printf("fin lecture fichier rominfo.fba\n");
 
 	//check parent rom absent
 	for ( ii=0 ; ii<data.nb_list[0] ; ++ii)
