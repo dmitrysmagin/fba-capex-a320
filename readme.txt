@@ -5,6 +5,7 @@ CAPEX frontend for Final Burn Alpha SDL (OpenDingux)
 KEYS:
 UP/DOWN - navigate through the menus
 LEFT/RIGHT - alter settings in config menu
+L/R - scroll page up/down
 A - launch a game (first game config appears, press second time to run)
 B - go back to previous menu
 X - Help screen

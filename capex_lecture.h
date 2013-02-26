@@ -140,7 +140,7 @@ char lecture_zipname(void)
 	data.long_max = 0;
 	data.nb_rom = 0;
 
-	printf("lecture fichier zipname.fba\n");
+	printf("Reading zipname.fba\n");
 	if ((fp = fopen("zipname.fba", "r")) != NULL){
 		//printf("[");
 		while(fgets(ligne,sizeof(ligne),fp) != NULL){
@@ -204,7 +204,6 @@ char lecture_zipname(void)
 		}fclose(fp);
 		//printf("]\n");
 	}else return 1;
-	printf("fin lecture fichier zipname.fba %d\n",data.nb_list[0]);
 
 	return 0;
 }

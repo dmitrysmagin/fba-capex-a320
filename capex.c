@@ -1179,28 +1179,45 @@ int main(int argc, char *argv[])
 		//SDL_Flip(screen);
 
 		SDL_PollEvent(&event);
-		if (event.type==SDL_KEYDOWN){
-			//printf("but: %d\r\n",event.key.keysym.sym);
-			if (compteur==0 || (compteur>capex.delayspeed && ((compteur&joy_speed[capex.repeatspeed])==0))){
-			    if ((event.key.keysym.sym>=SDLK_a) && (event.key.keysym.sym<=SDLK_z)){
-			        selector.num=findfirst(event.key.keysym.sym,selector.num);
-			        selector.offset_num=selector.num;
-			        selector.y = START_Y-1;
-			    }
-				if (event.key.keysym.sym==SDLK_DOWN){
+		if(event.type == SDL_KEYDOWN) {
+			if(compteur == 0 || (compteur > capex.delayspeed && ((compteur & joy_speed[capex.repeatspeed]) == 0))) {
+				if((event.key.keysym.sym >= SDLK_a) && (event.key.keysym.sym <= SDLK_z)) {
+					selector.num = findfirst(event.key.keysym.sym,selector.num);
+					selector.offset_num = selector.num;
+					selector.y = START_Y - 1;
+				} else if(event.key.keysym.sym == SDLK_TAB) { // page up
+					selector.num -= 13;
+					if(selector.num > 7) {
+						selector.offset_num = selector.num - 7;
+						selector.y = START_Y - 1 + 7 * 9;
+					} else {
+						selector.offset_num = selector.num = 0;
+						selector.y = START_Y - 1;
+					}
+				} else if(event.key.keysym.sym == SDLK_BACKSPACE) { // page down
+					selector.num += 13;
+					if(selector.num < data.nb_list[capex.list] - 7) {
+						selector.offset_num = selector.num - 7;
+						selector.y = START_Y - 1 + 7 * 9;
+					} else {
+						selector.num = data.nb_list[capex.list] - 1;
+						selector.offset_num = selector.num - 12;
+						selector.y = START_Y - 1 + 12 * 9;
+					}
+				} else if(event.key.keysym.sym == SDLK_DOWN) {
 					// if in the end of list, reset to the beginning
-					if ( selector.num == (data.nb_list[capex.list]-1) && compteur==0 ){
+					if (selector.num == data.nb_list[capex.list] - 1 && compteur == 0) {
 						selector.y = START_Y-1;
 						selector.num = 0;
 						selector.offset_num = 0;
-					}else{
-						if (data.nb_list[capex.list] < 14){ // if rom number in list < 14
-								if (selector.num < (data.nb_list[capex.list]-1) ) {
-									selector.y+=9;
+					} else {
+						if (data.nb_list[capex.list] < 14) { // if rom number in list < 14
+								if (selector.num < data.nb_list[capex.list] - 1) {
+									selector.y += 9;
 									++selector.num;
-									if (compteur==0){
+									if(compteur == 0) {
 										load_preview(selector.num);
-										load_cf();
+										//load_cf();
 									}
 								}
 						}else{
@@ -1208,64 +1225,64 @@ int main(int argc, char *argv[])
 								if (selector.num < (data.nb_list[capex.list]-1)) {
 									selector.y+=9;
 									++selector.num;
-									if (compteur==0){
+									if(compteur == 0) {
 										load_preview(selector.num);
-										load_cf();
+										//load_cf();
 									}
 								}
 							} else {
 								++selector.offset_num;
 								++selector.num;
-								if (compteur==0){
+								if(compteur == 0) {
 									load_preview(selector.num);
-									load_cf();
+									//load_cf();
 								}
 							}
 						}
 					}
-				}else if (event.key.keysym.sym==SDLK_UP){
-					if ( selector.num==0 && compteur==0 ){
-						selector.num = data.nb_list[capex.list] - 1 ;
-						if (data.nb_list[capex.list] < 14){
-							selector.y = START_Y -1 + ( ( data.nb_list[capex.list] - 1 ) *9 ) ;
+				} else if(event.key.keysym.sym == SDLK_UP) {
+					if (selector.num == 0 && compteur == 0) {
+						selector.num = data.nb_list[capex.list] - 1;
+						if (data.nb_list[capex.list] < 14) {
+							selector.y = START_Y - 1 + ((data.nb_list[capex.list] - 1) * 9);
 							//selector.offset_num = 0;
-						}else{
-							selector.y = START_Y -1 + (12*9) ;
+						} else {
+							selector.y = START_Y - 1 + (12 * 9);
 							selector.offset_num = data.nb_list[capex.list] - 13;
 						}
-					}else{
-						if ( selector.num > (data.nb_list[capex.list]-7) || selector.offset_num==0){
-							if (selector.num>0){
-								selector.y-=9;
+					} else {
+						if(selector.num > data.nb_list[capex.list] - 7 || selector.offset_num == 0) {
+							if(selector.num > 0) {
+								selector.y -= 9;
 								--selector.num;
-								if (compteur==0){
+								if(compteur == 0) {
 									load_preview(selector.num);
-									load_cf();
+									//load_cf();
 								}
 							}
-						}else{
+						} else {
 							--selector.offset_num;
 							--selector.num;
-							if (compteur==0){
+							if(compteur == 0) {
 								load_preview(selector.num);
-								load_cf();
+								//load_cf();
 							}
 						}
 					}
-				}else if (event.key.keysym.sym==SDLK_LEFT && selector.crt_x>0){
+				} else if(event.key.keysym.sym == SDLK_LEFT && selector.crt_x > 0) {
 					--selector.crt_x;
-				}else if (event.key.keysym.sym==SDLK_RIGHT && selector.crt_x<data.long_max-53 ){
+				} else if(event.key.keysym.sym == SDLK_RIGHT && selector.crt_x < data.long_max - 53) {
 					++selector.crt_x;
 				} else if(event.key.keysym.sym == SDLK_ESCAPE || event.key.keysym.sym == SDLK_LALT) {
-					if ( ss_prg_credit() ) Quit = 1;
-				}else if (event.key.keysym.sym==SDLK_LCTRL){
+					if(ss_prg_credit()) Quit = 1;
+				} else if(event.key.keysym.sym == SDLK_LCTRL){
 					// executer l'emu
-					if (data.etat[listing_tri[capex.list][selector.num]] != ROUGE) {
+					if(data.etat[listing_tri[capex.list][selector.num]] != ROUGE) {
 						ss_prog_run();
 					}
-				}else if( event.key.keysym.sym == SDLK_SPACE ){
-					if (compteur==0) ss_prg_help();
-				}else if( event.key.keysym.sym == SDLK_RETURN ){
+				} else if(event.key.keysym.sym == SDLK_SPACE ){
+					if(compteur == 0) ss_prg_help();
+				} else if(event.key.keysym.sym == SDLK_RETURN ){
 					ss_prg_options();
 				}
 			}
@@ -1273,9 +1290,9 @@ int main(int argc, char *argv[])
 		} else if(event.type == SDL_KEYUP) {
 			if(compteur) {
 				load_preview(selector.num);
-				load_cf();
+				//load_cf();
 			}
-			compteur=0; // reinitialisation joystick
+			compteur = 0; // reinitialisation joystick
 		}
 
 	}
