@@ -57,13 +57,14 @@
 
 unsigned char joy_speed[4]={0,1,3,7};
 
-static char *abreviation_cf[6][7]={
+static char *abreviation_cf[7][7]={
 	{"Disable","Enable","","","","",""},
 	{"Original","Fullscreen","","","","",""},
 	{"Off","Auto","Manual","","","",""},
 	{"C68k","M68k","A68k","","","",""},
 	{"CZ80","MAME Z80","","","","",""},
-	{"Off","On","","","","",""}
+	{"Off","On","","","","",""},
+	{"Off","LIBAO","SDL","SDL old","","",""}
 };
 
 void ligneH(SDL_Surface* screenSurface, int x, int y, int w, Uint32 coul)

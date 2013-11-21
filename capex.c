@@ -720,7 +720,7 @@ void put_run_option_line(unsigned char num, unsigned char y)
 			put_string( "Sound" , OPTIONS_START_X , y , BLANC , screen );
 
 			if (options.exist) {
-				put_string(abreviation_cf[0][options.sound], CONF_START_X, y, VERT, screen);
+				put_string(abreviation_cf[6][options.sound], CONF_START_X, y, VERT, screen);
 			} else {
 				put_string("-", CONF_START_X, y, ROUGE, screen);
 			}
@@ -853,7 +853,8 @@ void ss_prog_run(void)
 				} else if (event.key.keysym.sym == SDLK_LEFT) {
 					switch(run_num) {
 						case OPTION_FBA_SOUND:
-							options.sound ^= 1;
+							options.sound--;
+							if(options.sound < 0) options.sound = 3;
 							break;
 						case OPTION_FBA_SAMPLERATE:
 							options.samplerate >>= 1;
@@ -883,7 +884,8 @@ void ss_prog_run(void)
 				} else if (event.key.keysym.sym == SDLK_RIGHT) {
 					switch(run_num) {
 						case OPTION_FBA_SOUND:
-							options.sound ^= 1;
+							options.sound++;
+							if(options.sound > 3) options.sound = 0;
 							break;
 						case OPTION_FBA_SAMPLERATE:
 							options.samplerate <<= 1;
@@ -942,7 +944,13 @@ void ss_prog_run(void)
 					++ar;
 
 					if (options.sound){
-						argument[ ar ] = "--sound-sdl";
+						if(options.sound == 1)
+							argument[ ar ] = "--sound-ao";
+						else if(options.sound == 2)
+							argument[ ar ] = "--sound-sdl";
+						else if(options.sound == 3)
+							argument[ ar ] = "--sound-sdl-old";
+						else argument[ ar ] = "--no-sound";
 						++ar;
 
 						sprintf((char*)g_string, "--samplerate=%d" , options.samplerate);

@@ -84,7 +84,7 @@ void load_cf(void)
 		options.exist = 1;
 
 		// force default settings
-		options.sound = 1;
+		options.sound = 2;
 		options.samplerate = 22050;
 		options.rescale = 0;
 		options.frameskip = 0;
@@ -116,7 +116,7 @@ void load_cf(void)
 		options.exist = 0;
 
 		// force default settings
-		options.sound = 1;
+		options.sound = 2;
 		options.samplerate = 22050;
 		options.rescale = 0;
 		options.frameskip = 0;
