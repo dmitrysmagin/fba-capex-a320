@@ -61,7 +61,7 @@ static char *abreviation_cf[6][7]={
 	{"Disable","Enable","","","","",""},
 	{"Original","Fullscreen","","","","",""},
 	{"Off","Auto","Manual","","","",""},
-	{"C68k","M68k","","","","",""},
+	{"C68k","M68k","A68k","","","",""},
 	{"CZ80","MAME Z80","","","","",""},
 	{"Off","On","","","","",""}
 };

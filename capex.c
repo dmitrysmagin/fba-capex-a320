@@ -866,7 +866,8 @@ void ss_prog_run(void)
 							options.showfps ^= 1;
 							break;
 						case OPTION_FBA_68K:
-							options.m68kcore ^= 1;
+							options.m68kcore--;
+							if(options.m68kcore < 0) options.m68kcore = 2;
 							break;
 						case OPTION_FBA_Z80:
 							options.z80core ^= 1;
@@ -895,7 +896,8 @@ void ss_prog_run(void)
 							options.showfps ^= 1;
 							break;
 						case OPTION_FBA_68K:
-							options.m68kcore ^= 1;
+							options.m68kcore++;
+							if(options.m68kcore > 2) options.m68kcore = 0;
 							break;
 						case OPTION_FBA_Z80:
 							options.z80core ^= 1;
